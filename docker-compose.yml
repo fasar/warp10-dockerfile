@@ -9,3 +9,17 @@ services:
             - WARP10_HEAP_MAX=6g
         volumes: 
             - ./warp10-rt:/data
+    zeppelin:
+        # WarpScript interpreter plugin should be configured at: warp10-alldb:9377
+        container_name: zeppelin
+        image: apache/zeppelin:0.8.2
+        environment: 
+            # Configuration are : https://zeppelin.apache.org/docs/0.8.2/setup/operation/configuration.html
+            - ZEPPELIN_ADDR=0.0.0.0
+            - ZEPPELIN_PORT=8080
+            - ZEPPELIN_LOG_DIR=/zepp-rt/logs
+            - ZEPPELIN_NOTEBOOK_DIR=/zepp-rt/notebook
+            - ZEPPELIN_CONF_DIR=/zepp-rt/conf
+        volumes: 
+            - ./zepp-rt:/zepp-rt/
+            - ./warp10-rt/warp10/lib:/zeppelin/interpreter/WarpScript
