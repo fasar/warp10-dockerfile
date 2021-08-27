@@ -19,9 +19,15 @@
 *.tar.gz
 *.rar
 
-# Lib in warp10
+# Warp10 Conf
+!warp10-rt/warp10/logs/**
 !warp10-rt/warp10/**/*.jar
+warp10-rt/warp10/leveldb/**
+warp10-rt/sensision/**
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+
+# Cassandra data
+cassandra/DATA-DC1/

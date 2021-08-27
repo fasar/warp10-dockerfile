@@ -1,11 +1,38 @@
 version: '2'
 
+networks:
+    warp10_net:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.0.0.0/24
+                  ip_range: 10.0.0.0/24
+
+
 services:
     warp10-alldb:
         container_name: warp10-alldb
         image: warp10io/warp10:2.8.1-ci
         environment:
-            - WARP10_HEAP=6g 
-            - WARP10_HEAP_MAX=6g
+            - WARP10_HEAP=2g 
+            - WARP10_HEAP_MAX=2g
         volumes: 
             - ./warp10-rt:/data
+        networks:
+            warp10_net:
+                ipv4_address: 10.0.0.100
+        depends_on:
+            - cassandra-dc1
+    cassandra-dc1:
+        container_name: cassandra-dc1
+        image: cassandra:3.11.10
+        environment:
+            - JVM_OPTS=-Xms2g -Xmx2g
+            - CASSANDRA_DC=dc1
+            - CASSANDRA_RACK=rack1
+            - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+        volumes:
+            - ./cassandra/DATA-DC1/:/var/lib/cassandra
+        networks:
+            warp10_net:
+                ipv4_address: 10.0.0.101
