@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+    warp10-alldb:
+        container_name: warp10-alldb
+        image: warp10io/warp10:2.8.1-ci
+        environment:
+            - WARP10_HEAP=6g 
+            - WARP10_HEAP_MAX=6g
+        volumes: 
+            - ./warp10-rt:/data
